@@ -66,11 +66,16 @@ public class DiaryController {
         return new Response<>(diaryResponse, ResponseCode.R_200, Message.RESPONSE_OK);
     }
 
-
     @PutMapping("/themes/{id}")
     public Response<DiaryResponse> updateTheme(@NotNull(message = Message.NOT_NULL) @Min(value = 0, message = Message.MIN_ID) @PathVariable(name = "id") Integer id,
                                                @RequestParam(name = "theme-ids", required = false) List<Integer> themeIds) {
         DiaryResponse diaryResponse = diaryService.updateTheme(themeIds, id);
+        return new Response<>(diaryResponse, ResponseCode.R_200, Message.RESPONSE_OK);
+    }
+
+    @PutMapping("/favorite-list/{id}")
+    public Response<DiaryResponse> updateFavoriteList(@NotNull(message = Message.NOT_NULL) @Min(value = 0, message = Message.MIN_ID) @PathVariable(name = "id") Integer id) {
+        DiaryResponse diaryResponse = diaryService.updateFavoriteList(id);
         return new Response<>(diaryResponse, ResponseCode.R_200, Message.RESPONSE_OK);
     }
 
