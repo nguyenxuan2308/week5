@@ -25,6 +25,18 @@ public class DiaryController {
 
     private final DiaryService diaryService;
 
+    @GetMapping()
+    public Response<List<DiaryResponse>> findAll() {
+        List<DiaryResponse> diaryResponse = diaryService.findAllByStatus();
+        return new Response<>(diaryResponse, ResponseCode.R_200, Message.RESPONSE_OK);
+    }
+
+    @GetMapping("/users/{user-id}")
+    public Response<List<DiaryResponse>> findByIdUser(@NotNull(message = Message.NOT_NULL) @Min(value = 0, message = Message.MIN_ID) @PathVariable(name = "user-id") Integer userId) {
+        List<DiaryResponse> diaryResponses = diaryService.findByIdUser(userId);
+        return new Response<>(diaryResponses, ResponseCode.R_200, Message.RESPONSE_OK);
+    }
+
     @PostMapping()
     public Response<DiaryResponse> create(@Valid @RequestBody DiaryRequest diaryRequest) {
         DiaryResponse diaryResponse = diaryService.create(diaryRequest);
