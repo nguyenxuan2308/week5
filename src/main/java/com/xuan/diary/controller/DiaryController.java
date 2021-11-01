@@ -3,6 +3,7 @@ package com.xuan.diary.controller;
 import com.xuan.diary.common.message.Message;
 import com.xuan.diary.common.response.Response;
 import com.xuan.diary.common.response.ResponseCode;
+import com.xuan.diary.model.request.ContentDiaryRequest;
 import com.xuan.diary.model.request.DiaryRequest;
 import com.xuan.diary.model.response.DiaryResponse;
 import com.xuan.diary.service.DiaryService;
@@ -76,6 +77,13 @@ public class DiaryController {
     @PutMapping("/favorite-list/{id}")
     public Response<DiaryResponse> updateFavoriteList(@NotNull(message = Message.NOT_NULL) @Min(value = 0, message = Message.MIN_ID) @PathVariable(name = "id") Integer id) {
         DiaryResponse diaryResponse = diaryService.updateFavoriteList(id);
+        return new Response<>(diaryResponse, ResponseCode.R_200, Message.RESPONSE_OK);
+    }
+
+    @PutMapping("/content/{id}")
+    public Response<DiaryResponse> updateContent(@NotNull(message = Message.NOT_NULL) @Min(value = 0, message = Message.MIN_ID) @PathVariable(name = "id") Integer id,
+                                                 @Valid @RequestBody ContentDiaryRequest contentRequest) {
+        DiaryResponse diaryResponse = diaryService.updateContent(contentRequest, id);
         return new Response<>(diaryResponse, ResponseCode.R_200, Message.RESPONSE_OK);
     }
 
