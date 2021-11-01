@@ -3,7 +3,6 @@ package com.xuan.diary.controller;
 import com.xuan.diary.common.message.Message;
 import com.xuan.diary.common.response.Response;
 import com.xuan.diary.common.response.ResponseCode;
-import com.xuan.diary.model.request.ContentDiaryRequest;
 import com.xuan.diary.model.request.DiaryRequest;
 import com.xuan.diary.model.response.DiaryResponse;
 import com.xuan.diary.service.DiaryService;
@@ -41,6 +40,17 @@ public class DiaryController {
     public Response<DiaryResponse> findByIdDiary(@NotNull(message = Message.NOT_NULL) @Min(value = 0, message = Message.MIN_ID) @PathVariable(name = "diary-id") Integer id) {
         DiaryResponse diaryResponse = diaryService.findByIdDiary(id);
         return new Response<>(diaryResponse, ResponseCode.R_200, Message.RESPONSE_OK);
+    }
+
+    @GetMapping("/filter")
+    public Response<List<DiaryResponse>> filter(
+            @RequestParam(name = "theme-ids", required = false) List<Integer> themeIds,
+            @RequestParam(name = "time-start", required = false) Timestamp timeStart,
+            @RequestParam(name = "time-end", required = false) Timestamp timeEnd,
+            @RequestParam(name = "title", required = false) String title,
+            @RequestParam(name = "favorite-list", required = false) boolean favoritesList) {
+        List<DiaryResponse> diaryResponses = diaryService.filter(themeIds, title, favoritesList, timeStart, timeEnd);
+        return new Response<>(diaryResponses, ResponseCode.R_200, Message.RESPONSE_OK);
     }
 
     @PostMapping()
