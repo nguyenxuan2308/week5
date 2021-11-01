@@ -37,6 +37,12 @@ public class DiaryController {
         return new Response<>(diaryResponses, ResponseCode.R_200, Message.RESPONSE_OK);
     }
 
+    @GetMapping("/{diary-id}")
+    public Response<DiaryResponse> findByIdDiary(@NotNull(message = Message.NOT_NULL) @Min(value = 0, message = Message.MIN_ID) @PathVariable(name = "diary-id") Integer id) {
+        DiaryResponse diaryResponse = diaryService.findByIdDiary(id);
+        return new Response<>(diaryResponse, ResponseCode.R_200, Message.RESPONSE_OK);
+    }
+
     @PostMapping()
     public Response<DiaryResponse> create(@Valid @RequestBody DiaryRequest diaryRequest) {
         DiaryResponse diaryResponse = diaryService.create(diaryRequest);
