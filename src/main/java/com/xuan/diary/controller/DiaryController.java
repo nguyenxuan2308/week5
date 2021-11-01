@@ -49,6 +49,10 @@ public class DiaryController {
         return new Response<>(diaryResponse, ResponseCode.R_201, Message.RESPONSE_CREATE);
     }
 
-
+    @DeleteMapping("/{id}")
+    public Response<DiaryResponse> deleteDiaryById(@NotNull(message = Message.NOT_NULL) @Min(value = 0, message = Message.MIN_ID) @PathVariable(name = "id") Integer id) {
+        diaryService.deleteDiaryById(id);
+        return new Response<>(ResponseCode.R_200, Message.RESPONSE_OK);
+    }
 
 }
