@@ -59,6 +59,21 @@ public class DiaryController {
         return new Response<>(diaryResponse, ResponseCode.R_201, Message.RESPONSE_CREATE);
     }
 
+    @PutMapping("/{id}")
+    public Response<DiaryResponse> update(@NotNull(message = Message.NOT_NULL) @Min(value = 0, message = Message.MIN_ID) @PathVariable(name = "id") Integer id,
+                                          @Valid @RequestBody DiaryRequest diaryRequest) {
+        DiaryResponse diaryResponse = diaryService.update(diaryRequest, id);
+        return new Response<>(diaryResponse, ResponseCode.R_200, Message.RESPONSE_OK);
+    }
+
+
+    @PutMapping("/themes/{id}")
+    public Response<DiaryResponse> updateTheme(@NotNull(message = Message.NOT_NULL) @Min(value = 0, message = Message.MIN_ID) @PathVariable(name = "id") Integer id,
+                                               @RequestParam(name = "theme-ids", required = false) List<Integer> themeIds) {
+        DiaryResponse diaryResponse = diaryService.updateTheme(themeIds, id);
+        return new Response<>(diaryResponse, ResponseCode.R_200, Message.RESPONSE_OK);
+    }
+
     @DeleteMapping("/{id}")
     public Response<DiaryResponse> deleteDiaryById(@NotNull(message = Message.NOT_NULL) @Min(value = 0, message = Message.MIN_ID) @PathVariable(name = "id") Integer id) {
         diaryService.deleteDiaryById(id);
